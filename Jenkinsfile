@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     echo "building image"
-                    withCredetials([usernamePassword(credentialsId: 'fa2753f9-b30c-465d-8730-6cf4a7d5a3f8', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    withCredentials([usernamePassword(credentialsId: 'fa2753f9-b30c-465d-8730-6cf4a7d5a3f8', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     	sh 'docker build -t rufat51/my-repo:jma-1.2 .'
                     	sh "echo $PASS | docker login -u $USER --pasword-stdin"
                     	sh 'docker push rufat51/my-repo:jma-1.2'
