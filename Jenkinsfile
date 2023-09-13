@@ -10,7 +10,16 @@ pipeline {
     	maven 'mvn'
     }
     stages {
-
+        stage("increment version") {
+            steps {
+                script {
+                    echo 'incrementng version...'
+                    sh 'mvn build-helper:parse-version version:set \
+                        -DnewVersion=\\\${pardesVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} versions:commit'
+                    def matcher = readFIle('pom.xml) =~ '<version>(.+)</version>'
+                }
+            }
+        }
         stage("init") {
             steps {
                 script {
