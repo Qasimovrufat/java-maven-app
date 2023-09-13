@@ -1,4 +1,8 @@
+
+@Library('jenkins-shared-library')
 def gv
+
+
 
 pipeline {
     agent any
@@ -6,12 +10,18 @@ pipeline {
     	maven 'mvn'
     }
     stages {
-        
+
+        stage("init) {
+                    steps {
+                        script {
+                            gv = load "script.groovy"
+                        }
+                    }
+        }
         stage("build jar") {
             steps {
                 script {
-                    echo "building jar"
-                    sh 'mvn package'
+                    buildJar()
                 }
             }
         }
@@ -23,11 +33,7 @@ pipeline {
             }
             steps {
                 script {
-                    echo "building image"
-                    withCredentials([usernamePassword(credentialsId: '0fa9e3bf-37f1-4ddd-977c-dabfafb57f3c', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    	sh 'docker build -t rufat51/my-repo:jma-1.2 .'
-                    	sh "echo $PASS | docker login -u $USER --password-stdin"
-                    	sh 'docker push rufat51/my-repo:jma-1.2'
+                    buildImage()
                     }
                 }
             }
@@ -40,8 +46,7 @@ pipeline {
             }
             steps {
                 script {
-                    echo "deploying"
-                    //gv.deployApp()
+                    gv.deployApp()
                 }
             }
         }
