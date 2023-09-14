@@ -40,7 +40,9 @@ pipeline {
             }
             steps {
                 script {
-                    buildImage()
+                    buildImage 'rufat51/my-repo:2.0'
+                    dockerLogin()
+                    dockerPush 'rufat51/my-repo:2.0'
                     }
                 }
             }
