@@ -56,7 +56,9 @@ pipeline {
             steps {
                 script {
                     sshagent(['ec2-server-ky']) {
-                        sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.224.49.214 docker run -d -p 3080:3080 rufat51/my-repo:2.0'
+                    def dockerComposeCmd = "docker-compose -f docker-compose.yaml up --detach"
+                        sh "scp docker-compose.yaml ec2-user@54.224.49.214:/home/ec2-user"
+                        sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.224.49.214 ${dockerComposeCmd}'
                     }
                 }
             }
