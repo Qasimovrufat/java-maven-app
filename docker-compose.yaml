@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.3'
 services:
     java-maven-app:
       image: rufat51/my-repo:2.0
