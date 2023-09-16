@@ -55,7 +55,9 @@ pipeline {
             }
             steps {
                 script {
-                    gv.deployApp()
+                    sshagent(['ec2-server-ky']) {
+                        sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.224.49.214 docker run -d -p 3080:3080 rufat51/my-repo:2.0'
+                    }
                 }
             }
         }
